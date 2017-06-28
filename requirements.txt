@@ -1,0 +1,13 @@
+pyopenssl
+ndg-httpsclient
+pyasn1
+
+scrapy
+demjson
+pyquery
+
+pdbpp
+
+#pymongo
+#python-dateutil==2.5.3
+#chardet==2.3.0
