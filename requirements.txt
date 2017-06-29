@@ -11,3 +11,4 @@ pdbpp
 #pymongo
 #python-dateutil==2.5.3
 #chardet==2.3.0
+pymongo==3.4.0
