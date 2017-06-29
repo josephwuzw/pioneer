@@ -7,7 +7,20 @@
 import pymongo
 
 
-class PioneerPipeline(object):
+class ZipAttrsPipeline(object):
+
+    attr_keys = [
+        'store_daily_visitors', 'price', 'pixel',
+        'facebook_page', 'twitter_profile', 'instagram_profile']
+
+    def process_item(self, item, spider):
+        data = dict(zip(self.attr_keys, item['attrs']))
+        data.update(dict(zip(map(lambda x: x+'_url', self.attr_keys), item['attr_links'])))
+        del item['attrs']
+        del item['attr_links']
+        data.update(item)
+        return {k: v for k, v in data.items() if v}
+
 
 class MongoPipeline(object):
 

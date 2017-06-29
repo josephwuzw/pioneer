@@ -6,7 +6,7 @@ import scrapy
 from scrapy.http import Request
 from pyquery import PyQuery
 
-from pioneer.settings import COOKIES_PIONEER_JSON
+from pioneer.settings_local import COOKIES_PIONEER_JSON
 
 cookies = demjson.decode(COOKIES_PIONEER_JSON)
 
@@ -27,14 +27,18 @@ class IntelligynceSpider(scrapy.Spider):
         gen = trs.items()
         for each in gen:
             url = each('td > div > a:nth-child(3)').attr['href']
+            thumbnail_url = each('.productImageThumbnail').attr['src']
             _discard = gen.next()
             td_attrs = gen.next()
             attrs = [td.text().replace(' ', '').replace('\r\n', ' ') for td in td_attrs('td').items()]
+            attr_links = [td('a').attr['href'] for td in td_attrs('td').items()]
 
             yield {
-                    'url':url,
-                    'attrs':attrs,
-                    }
+                'url': url,
+                'thumbnail_url': thumbnail_url,
+                'attrs': attrs,
+                'attr_links': attr_links
+            }
 
         page = re.findall('productsPage=(\d+)', response.url)
         assert len(page) == 1
